@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+
+:root {
+  --bg-primary: #0D0D0D;    
+  --bg-secondary: #1A1A1A; 
+  --accent-red: #FF0000; 
+  --accent-dark-red: #990000; 
+  --text-main: #E5E5E5;
+  --text-muted: #AAAAAA;     
+}
+
+body {
+    background-image: url('/app-bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

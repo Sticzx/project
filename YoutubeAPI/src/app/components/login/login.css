@@ -1,0 +1,204 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 450px;
+    padding: 2rem;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.login-card {
+    background: linear-gradient(145deg, rgba(26, 26, 26, 0.9), rgba(13, 13, 13, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle glow behind card */
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at top right, rgba(255, 0, 0, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.yt-logo {
+    width: 64px;
+    height: 64px;
+    color: var(--accent-red);
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 4px 8px rgba(255, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.yt-logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-container h1 {
+    color: var(--text-main);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+}
+
+.logo-container p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1.2rem 1rem 0.6rem;
+    color: var(--text-main);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--accent-red);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.1);
+}
+
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+.input-group input:focus ~ label,
+.input-group input:valid ~ label {
+    top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--accent-red);
+    transform: translateY(0);
+}
+
+.input-group input:valid ~ label {
+    color: var(--text-muted);
+}
+
+.input-group input:focus:valid ~ label {
+    color: var(--accent-red);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.forgot-link {
+    color: var(--accent-red);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s, text-shadow 0.3s;
+    font-weight: 500;
+}
+
+.forgot-link:hover {
+    color: #ff3333;
+    text-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+
+.submit-btn {
+    background: var(--accent-red);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+}
+
+.submit-btn:hover {
+    background: #e60000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 0, 0, 0.5);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.card-footer {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.card-footer span {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.card-footer a {
+    color: #3ea6ff; /* YouTube Blue link color */
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.card-footer a:hover {
+    color: #65b8ff;
+    text-shadow: 0 0 8px rgba(62, 166, 255, 0.4);
+}
