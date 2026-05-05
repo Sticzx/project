@@ -1,0 +1,79 @@
+<div class="game-container">
+  <a routerLink="/home" class="back-btn">← Wróć</a>
+  <div class="header">
+    <h2>Subscribed Mode</h2>
+    <p class="subtitle">Odgadnij twórcę na podstawie statystyk</p>
+  </div>
+  
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Ładowanie Twoich subskrypcji z API...</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="game-content">
+    <div *ngIf="youtubers.length === 0" class="empty-state">
+      Nie masz żadnych subskrypcji na tym koncie YouTube.
+    </div>
+
+    <div *ngIf="youtubers.length > 0">
+      
+      <div class="guess-controls" *ngIf="!hasWon">
+        <select class="custom-select" [(ngModel)]="selectedYoutuberId">
+          <option value="" disabled selected>Wybierz twórcę</option>
+          <option *ngFor="let yt of youtubers" [value]="yt.id">{{ yt.name }}</option>
+        </select>
+        <button class="primary-btn" (click)="checkGuess()">Zgadnij</button>
+      </div>
+      
+      <div class="win-state" *ngIf="hasWon">
+        <h3>🎉 Gratulacje! Odgadłeś twórcę!</h3>
+        <button class="primary-btn" (click)="resetGame()">Zagraj ponownie</button>
+      </div>
+
+      <div class="table-container" *ngIf="guesses.length > 0">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>YouTuber</th>
+              <th>Joined Year</th>
+              <th>Subscribers</th>
+              <th>Total Views</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let guess of guesses" class="fade-in">
+              <td class="youtuber-name">
+                <img [src]="guess.youtuber.avatarUrl" alt="avatar" class="avatar" *ngIf="guess.youtuber.avatarUrl">
+                <span>{{ guess.youtuber.name }}</span>
+              </td>
+              
+              <td [ngClass]="['status-cell', guess.results[0].status]">
+                <div class="cell-content">
+                  <span>{{ guess.results[0].actualValue }}</span>
+                  <span class="arrow" *ngIf="guess.results[0].status === 'higher'">↑</span>
+                  <span class="arrow" *ngIf="guess.results[0].status === 'lower'">↓</span>
+                </div>
+              </td>
+
+              <td [ngClass]="['status-cell', guess.results[1].status]">
+                <div class="cell-content">
+                  <span>{{ guess.results[1].actualValue | number }}</span>
+                  <span class="arrow" *ngIf="guess.results[1].status === 'higher'">↑</span>
+                  <span class="arrow" *ngIf="guess.results[1].status === 'lower'">↓</span>
+                </div>
+              </td>
+
+              <td [ngClass]="['status-cell', guess.results[2].status]">
+                <div class="cell-content">
+                  <span>{{ guess.results[2].actualValue | number }}</span>
+                  <span class="arrow" *ngIf="guess.results[2].status === 'higher'">↑</span>
+                  <span class="arrow" *ngIf="guess.results[2].status === 'lower'">↓</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
