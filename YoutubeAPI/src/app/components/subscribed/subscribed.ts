@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { Youtuber } from '../../interfaces/youtuber';
 import { ComparisonResult } from '../../interfaces/comparison-result';
 import { YoutubeService } from '../../services/youtube-service';
+import { GameStateService } from '../../services/game-state.service';
 
 @Component({
   selector: 'app-subscribed',
@@ -21,15 +22,29 @@ export class Subscribed implements OnInit {
   isLoading = true;
   hasWon = false;
 
-  constructor(private youtubeService: YoutubeService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private youtubeService: YoutubeService, 
+    private cdr: ChangeDetectorRef,
+    private gameState: GameStateService
+  ) {}
 
   ngOnInit() {
     this.youtubeService.getUserSubscriptionsPool().subscribe({
       next: (data) => {
         this.youtubers = data;
         if (this.youtubers.length > 0) {
-          this.target = this.youtubers[Math.floor(Math.random() * this.youtubers.length)];
+          const savedTarget = this.gameState.getCurrentTarget();
+          if (savedTarget && this.youtubers.some(y => y.id === savedTarget.id)) {
+            this.target = savedTarget;
+          } else {
+            this.target = this.youtubers[Math.floor(Math.random() * this.youtubers.length)];
+            this.gameState.setTarget(this.target);
+          }
           console.log('Target selected:', this.target.name);
+          
+          if (this.gameState.hasCompletedSubscribed()) {
+            this.hasWon = true;
+          }
         }
         this.isLoading = false;
         this.cdr.detectChanges();
@@ -61,6 +76,7 @@ export class Subscribed implements OnInit {
     if (guess.id === this.target.id) {
         console.log('Zwycięstwo!');
         this.hasWon = true;
+        this.gameState.completeSubscribedStage();
     }
 
     this.selectedYoutuberId = ''; // reset selection
@@ -75,6 +91,7 @@ export class Subscribed implements OnInit {
       newTarget = this.youtubers[Math.floor(Math.random() * this.youtubers.length)];
     } while (this.youtubers.length > 1 && newTarget.id === this.target.id);
     this.target = newTarget;
+    this.gameState.setTarget(newTarget);
     console.log('New target selected:', this.target.name);
   }
 

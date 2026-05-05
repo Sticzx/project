@@ -1,0 +1,67 @@
+<div class="game-container">
+  <!-- Przycisk do szybkiego powrotu do domu! -->
+  <a routerLink="/home" class="back-btn">← Wróć do menu</a>
+  
+  <!-- Nasz błyszczący nagłówek gry -->
+  <div class="header">
+    <h2>Emoji Mode 🧩</h2>
+    <p class="subtitle">Zgadnij twórcę po tych małych obrazkach!</p>
+  </div>
+  
+  <!-- Ekran ładowania - pokazujemy go, gdy czekamy na listę przyjaciół z internetu -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Ładowanie Twoich subskrypcji...</p>
+  </div>
+
+  <!-- Jeśli lista jest pusta, wyświetlamy bardzo smutną wiadomość -->
+  <div *ngIf="!isLoading && youtubers.length === 0" class="empty-state">
+    Nie masz żadnych subskrypcji. Z kim mamy grać? 😢
+  </div>
+
+  <!-- Główna plansza gry! Otwiera się jak pudełko niespodzianka, gdy gra się załaduje -->
+  <div *ngIf="!isLoading && youtubers.length > 0" class="game-content">
+    
+    <!-- Pudełeczko na nasze wielkie, kolorowe emotki na środku ekranu -->
+    <div class="emoji-display">
+      <!-- Rysujemy pokolei emotki, wyjmując je z naszej magicznej tablicy -->
+      <span class="emoji bounce-in" *ngFor="let emoji of visibleEmojis">
+        {{ emoji }}
+      </span>
+      <!-- Puste miejsca (znaki zapytania) czekające na to, aż się pomylisz! -->
+      <span class="emoji-placeholder" *ngFor="let empty of [].constructor(5 - visibleEmojisCount)">
+        ❓
+      </span>
+    </div>
+    
+    <!-- Mały licznik pokazujący, ile podpowiedzi udało nam się rozpakować -->
+    <p class="hints-text" *ngIf="!hasWon">Odblokowane podpowiedzi: {{ visibleEmojisCount }} z 5</p>
+
+    <!-- Tutaj wybieramy z listy kogo chcemy ustrzelić -->
+    <div class="guess-controls" *ngIf="!hasWon">
+      <select class="custom-select" [(ngModel)]="selectedYoutuberId">
+        <option value="" disabled selected>Kto to taki?</option>
+        <option *ngFor="let yt of youtubers" [value]="yt.id">{{ yt.name }}</option>
+      </select>
+      <button class="primary-btn" (click)="guess()">Zgadnij!</button>
+    </div>
+
+    <!-- Kiedy zrobimy błąd, tekst robi się czerwony i się trzęsie! -->
+    <div *ngIf="guessError && !hasWon" class="error-state">
+      <p>❌ Oj nie, to nie on! Odsłoniliśmy dla Ciebie kolejną emotkę!</p>
+    </div>
+
+    <!-- Panel wygranej - wyskakuje gdy zgadniesz! -->
+    <div class="win-state" *ngIf="hasWon">
+      <h3>🎉 Brawo! Zgadłeś!</h3>
+      <div class="winner-info">
+        <!-- Mały obrazek (awatar) zwycięzcy! -->
+        <img [src]="target.avatarUrl" alt="avatar" class="avatar" *ngIf="target.avatarUrl">
+        <p>To był oczywiście <strong>{{ target.name }}</strong></p>
+      </div>
+      <!-- Przycisk, który kręci wielkim kołem fortuny od nowa -->
+      <button class="primary-btn" (click)="setupNewTarget()">Chcę zagrać jeszcze raz!</button>
+    </div>
+
+  </div>
+</div>

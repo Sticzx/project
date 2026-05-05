@@ -1,0 +1,46 @@
+<div class="game-container">
+  <a routerLink="/home" class="back-btn">← Wróć do menu</a>
+  <div class="header">
+    <h2>Etap 2: Miniaturki</h2>
+    <p class="subtitle" *ngIf="targetCreator">Odgadnij miniaturkę twórcy: <strong>{{ targetCreator.name }}</strong></p>
+  </div>
+  
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Ładowanie filmów z API...</p>
+  </div>
+
+  <div *ngIf="!isLoading && videos.length === 0" class="empty-state">
+    Twórca nie ma wystarczającej liczby publicznych filmów, by zagrać w ten etap.
+  </div>
+
+  <div *ngIf="!isLoading && targetVideo" class="game-content">
+    
+    <div class="thumbnail-wrapper">
+      <img [src]="targetVideo.snippet.thumbnails.high.url" 
+           alt="Thumbnail" 
+           class="thumbnail-img" 
+           [style.filter]="hasWon ? 'blur(0)' : 'blur(' + currentBlur + 'px) contrast(1.2) brightness(0.9)'"
+           [style.transform]="hasWon ? 'scale(1)' : 'scale(1.1)'">
+    </div>
+
+    <div class="guess-controls" *ngIf="!hasWon">
+      <select class="custom-select" [(ngModel)]="selectedVideoId">
+        <option value="" disabled selected>Wybierz film</option>
+        <option *ngFor="let vid of videos" [value]="vid.id.videoId">{{ decodeHtml(vid.snippet.title) }}</option>
+      </select>
+      <button class="primary-btn" (click)="guess()">Zgadnij</button>
+    </div>
+
+    <div *ngIf="guessError && !hasWon" class="error-state">
+      <p>❌ Błędny tytuł, spróbuj ponownie!</p>
+    </div>
+
+    <div class="win-state" *ngIf="hasWon">
+      <h3>🎉 Zgadza się!</h3>
+      <p style="margin-bottom: 1.5rem; color: #f1f1f1;">Prawidłowy tytuł to: <strong>{{ decodeHtml(targetVideo.snippet.title) }}</strong></p>
+      <button class="primary-btn" (click)="setupGame()">Losuj kolejną miniaturkę</button>
+    </div>
+
+  </div>
+</div>

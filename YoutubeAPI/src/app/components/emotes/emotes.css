@@ -1,0 +1,230 @@
+/* Główne wielkie pudełko naszej gry. Robimy mu fajne, rozmyte tło przypominające szkło! */
+.game-container {
+  max-width: 800px;
+  margin: 2rem auto 20rem auto; /* Dużo miejsca na samym dole, by lista nie ucinała się o brzeg ekranu! */
+  padding: 2rem;
+  background: rgba(25, 25, 25, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f1f1;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+/* Przycisk ucieczki do menu */
+.back-btn {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  color: #aaaaaa;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+/* Po najechaniu myszką na przycisk robi się jasny! */
+.back-btn:hover {
+  color: #fff;
+}
+
+/* Nasz błyszczący, kolorowy napis na samej górze */
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header h2 {
+  font-size: 2.5rem;
+  margin: 0;
+  background: linear-gradient(90deg, #ff0000, #ff4d4d);
+  -webkit-background-clip: text; /* Koloruje tylko same literki, nie ich otoczenie! */
+  -webkit-text-fill-color: transparent; /* Sprawia że tło przez nie prześwituje */
+}
+
+/* Mniejszy opis u góry */
+.subtitle {
+  color: #aaaaaa;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+/* Wygląd ekranu, gdy coś się jeszcze ładuje i myśli */
+.loading-state, .empty-state {
+  text-align: center;
+  padding: 3rem 0;
+  font-size: 1.2rem;
+}
+
+/* To kółeczko się stale kręci, żeby gracz wiedział, że coś się dzieje */
+.spinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 1rem;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-left-color: #ff0000;
+  border-radius: 50%;
+  animation: spin 1s linear infinite; /* Tu uciekło! Nakazujemy by się kręciło! */
+}
+
+/* Instrukcja dla kółka: zrób pełen obrót! */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --- Sekcja pokazująca wielkie Emotki! --- */
+.emoji-display {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem; /* Zostawiamy przerwy między buźkami */
+  margin: 2rem 0 1rem 0;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.3); /* Robimy im ciemny podkład, by lepiej błyszczały */
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.emoji {
+  font-size: 4rem; /* Bardzo duże, fajne obrazki! */
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); /* Lekki cień, by odstawały od tła jak w 3D */
+}
+
+/* Znak zapytania, który jeszcze czeka na odkrycie przez błąd gracza */
+.emoji-placeholder {
+  font-size: 4rem;
+  opacity: 0.2; /* Ledwo go widać */
+  filter: grayscale(100%); /* Jest szary, a nie kolorowy */
+}
+
+.hints-text {
+  text-align: center;
+  color: #aaaaaa;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+
+/* Śmieszna animacja wchodzenia - nowa emotka robi BAM z małej do dużej! */
+.bounce-in {
+  animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* --- Sekcja, gdzie gracz wybiera i zgaduje! --- */
+.guess-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+/* To jest to długie okienko, w którym jest lista twórców */
+.custom-select {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  background: #222;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  outline: none;
+  width: 400px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+/* Gdy klikniemy na okienko, ramka świeci się na czerwono! */
+.custom-select:focus {
+  border-color: #ff0000;
+}
+
+/* Jeśli gracz zgadł źle - napis rzuca się w oczy, bo drży i jest czerwony! */
+.error-state {
+  text-align: center;
+  color: #ff4d4d;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  animation: shake 0.4s ease-in-out;
+}
+
+/* Jak potrząsnąć napisem w CSS? Właśnie tak! */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+}
+
+/* Gdy gracz zostanie mistrzem! */
+.win-state {
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+  margin-top: 1rem;
+}
+
+.win-state h3 {
+  color: #2ba640; /* Ładna, radosna zieleń */
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+/* Pokazuje twarz wygranego! */
+.winner-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Tworzymy idealne kółeczko z kwadratowego obrazka */
+  object-fit: cover;
+  border: 2px solid #2ba640;
+}
+
+/* Główny, super-przycisk do klikania */
+.primary-btn {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  background: #ff0000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+/* Gdy myszka znajdzie się na przycisku - ożywa i delikatnie się unosi! */
+.primary-btn:hover {
+  background: #cc0000;
+  transform: translateY(-2px);
+}
+
+/* Lekkiej mgiełki rozjaśnianie */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Zasady dla małych urządzeń typu telefony, żeby wszystko też wyglądało super */
+@media (max-width: 600px) {
+  .guess-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  .custom-select {
+    width: 100%; /* Rozciągamy okienko na całą szerokość ekranika w telefonie! */
+  }
+  .emoji, .emoji-placeholder {
+    font-size: 2.5rem; /* Zmniejszamy emotki, by wszystkie grzecznie się zmieściły */
+  }
+}

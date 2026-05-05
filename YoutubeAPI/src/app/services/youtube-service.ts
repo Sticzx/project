@@ -67,6 +67,24 @@ export class YoutubeService {
     );
   }
 
+  getChannelVideos(channelId: string): Observable<any[]> {
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=20&type=video`;
+    return this.http.get<any>(url).pipe(
+      map(response => response.items || [])
+    );
+  }
+
+  // Funkcja, która prosi YouTube o komentarze pod wybranym filmem.
+  // Dlaczego używamy order: 'relevance' (najbardziej trafne), a nie daty?
+  // Bo najnowsze komentarze (według daty) to często krótkie i nudne słowa, np. "first" albo uśmieszki.
+  // My chcemy komentarze z największą liczbą łapek w górę, które najlepiej określają film lub twórcę!
+  getTopComments(videoId: string): Observable<any[]> {
+    const url = `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&order=relevance&maxResults=5`;
+    return this.http.get<any>(url).pipe(
+      map(response => response.items || [])
+    );
+  }
+
   getToken() {
     return this.accessToken || localStorage.getItem('google_access_token');
   }
