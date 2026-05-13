@@ -9,4 +9,10 @@ export interface Youtuber {
   videoCount: number;      
   description: string;     
   topVideoId?: string;     
+  stock?: {
+    currentPrice: number;
+    priceHistory: number[];
+    lastViewCount: number;
+    change24h: number;
+  };
 }

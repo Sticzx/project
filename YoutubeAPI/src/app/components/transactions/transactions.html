@@ -1,0 +1,29 @@
+<div class="table-wrapper" *ngIf="history$ | async as history">
+    <div class="empty-state" *ngIf="history.length === 0">
+      Brak historii transakcji.
+    </div>
+    <table class="market-table" *ngIf="history.length > 0">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Typ</th>
+          <th>Twórca</th>
+          <th>Ilość</th>
+          <th>Cena</th>
+          <th>Suma</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tx of history">
+          <td class="date-cell">{{ tx.timestamp | date:'short' }}</td>
+          <td>
+            <span class="type-badge" [ngClass]="tx.type.toLowerCase()">{{ tx.type }}</span>
+          </td>
+          <td>{{ tx.youtuberName }}</td>
+          <td>{{ tx.amount }}</td>
+          <td>{{ tx.price | number:'1.2-2' }}</td>
+          <td>{{ tx.total | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

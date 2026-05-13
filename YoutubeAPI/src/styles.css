@@ -1,18 +1,77 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
 
 :root {
-  --bg-primary: #0D0D0D;    
-  --bg-secondary: #1A1A1A; 
-  --accent-red: #FF0000; 
-  --accent-dark-red: #990000; 
+  --bg-primary: #0D0D0D;
+  --bg-secondary: #1A1A1A;
+  --accent-red: #FF0000;
+  --accent-dark-red: #990000;
   --text-main: #E5E5E5;
-  --text-muted: #AAAAAA;     
+  --text-muted: #AAAAAA;
 }
 
 body {
-    background-image: url('/app-bg.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: #030303;
+  /* Deepest black */
+  color: var(--text-main);
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+
+/* Global Creative Aurora Background (No Blue) */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 0, 0, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 70% 20%, rgba(0, 255, 50, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 40% 80%, rgba(150, 0, 0, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0, 150, 50, 0.06) 0%, transparent 50%);
+  filter: blur(80px);
+  z-index: -2;
+  animation: auroraFlow 30s infinite alternate ease-in-out;
+}
+
+/* Creative Grain / Noise Texture */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes auroraFlow {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate(-5%, 5%) rotate(5deg);
+  }
+
+  100% {
+    transform: translate(5%, -5%) rotate(-5deg);
+  }
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 30px;
 }

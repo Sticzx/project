@@ -1,0 +1,37 @@
+<div class="market-grid" *ngIf="youtubers$ | async as youtubers">
+  <div class="creator-card" *ngFor="let yt of youtubers">
+    <div class="card-header" (click)="goToDetail(yt.id)" style="cursor: pointer;">
+      <div class="rank-badge">#{{ youtubers.indexOf(yt) + 1 }}</div>
+      <img [src]="yt.avatarUrl" alt="avatar" class="card-avatar">
+      <div class="owned-indicator" *ngIf="getOwnedCount(yt.id) > 0">
+        {{ getOwnedCount(yt.id) | number:'1.0-2' }} COINS
+      </div>
+    </div>
+
+    <div class="card-info" (click)="goToDetail(yt.id)" style="cursor: pointer;">
+      <h3 class="name">{{ yt.name }}</h3>
+      <span class="handle">{{ yt.handle }}</span>
+    </div>
+
+    <div class="card-price-section">
+      <div class="price-box">
+        <span class="label">AKTUALNA CENA</span>
+        <span class="price">{{ yt.stock?.currentPrice | number:'1.2-2' }} <small>USD</small></span>
+      </div>
+      <div class="change-box" [ngClass]="(yt.stock?.change24h || 0) >= 0 ? 'up' : 'down'">
+        <i class="trend-icon">{{ (yt.stock?.change24h || 0) >= 0 ? '▲' : '▼' }}</i>
+        {{ yt.stock?.change24h | number:'1.2-2' }}%
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button class="action-btn buy" (click)="openTrade(yt, 'BUY')">
+        KUP
+      </button>
+      <button class="action-btn sell" (click)="openTrade(yt, 'SELL')" [disabled]="getOwnedCount(yt.id) === 0">
+        SPRZEDAJ
+      </button>
+    </div>
+  </div>
+</div>
+

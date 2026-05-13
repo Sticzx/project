@@ -1,0 +1,7 @@
+<div class="toast-container" *ngIf="toastService.toast$ | async as toast" [class]="toast.type">
+    <div class="toast-content">
+      <i class="icon">{{ toast.type === 'success' ? '✓' : '!' }}</i>
+      <span class="message">{{ toast.message }}</span>
+    </div>
+    <div class="progress-bar"></div>
+</div>

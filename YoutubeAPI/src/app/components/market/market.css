@@ -1,0 +1,224 @@
+.market-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+    max-height: 75vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #00ff88 rgba(255, 255, 255, 0.05);
+}
+
+.market-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.market-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+}
+
+.market-grid::-webkit-scrollbar-thumb {
+    background: #00ff88;
+    border-radius: 10px;
+}
+
+
+.creator-card {
+    background: rgba(20, 25, 30, 0.6);
+    backdrop-filter: blur(25px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.creator-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #00ff88, transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.creator-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    background: rgba(30, 40, 50, 0.8);
+    border-color: rgba(0, 255, 136, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.creator-card:hover::before {
+    opacity: 1;
+}
+
+.card-header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+    margin-bottom: 0.5rem;
+}
+
+.rank-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.05);
+    color: #888;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.card-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+}
+
+.creator-card:hover .card-avatar {
+    transform: scale(1.1);
+    border-color: rgba(0, 255, 136, 0.5);
+}
+
+.owned-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 136, 255, 0.1));
+    color: #00ff88;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.card-info {
+    text-align: center;
+}
+
+.card-info .name {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+}
+
+.card-info .handle {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.card-price-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 16px;
+}
+
+.price-box .label {
+    display: block;
+    font-size: 0.65rem;
+    color: #888;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.price-box .price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #00ff88;
+}
+
+.price-box .price small {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.change-box {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+.change-box.up { color: #00ff88; }
+.change-box.down { color: #ff3e3e; }
+
+.trend-icon {
+    font-style: normal;
+    font-size: 0.8rem;
+}
+
+.card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.action-btn {
+    padding: 0.8rem;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}
+
+.action-btn.buy {
+    background: #00ff88;
+    color: #05100a;
+}
+
+.action-btn.buy:hover {
+    background: #00cc6d;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+.action-btn.sell {
+    background: rgba(255, 62, 62, 0.1);
+    color: #ff3e3e;
+    border: 1px solid rgba(255, 62, 62, 0.2);
+}
+
+.action-btn.sell:not(:disabled):hover {
+    background: #ff3e3e;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(255, 62, 62, 0.3);
+}
+
+.action-btn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .market-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

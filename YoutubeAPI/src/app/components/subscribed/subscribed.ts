@@ -51,6 +51,9 @@ export class Subscribed implements OnInit {
       },
       error: (err) => {
         console.error('Błąd pobierania subskrypcji:', err);
+        if (err.error && err.error.error) {
+          console.error('Szczegóły błędu Google:', err.error.error.message);
+        }
         this.isLoading = false;
         this.cdr.detectChanges();
       }

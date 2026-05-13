@@ -1,0 +1,52 @@
+<div class="detail-container" *ngIf="creator">
+    <div class="header-row">
+        <button class="back-btn" routerLink="/ytstock/market">
+            <i>←</i> RYNEK
+        </button>
+        <div class="header-center">
+            <h1 class="logo-mini">YT-<span>STOCK</span></h1>
+        </div>
+        <div class="owned-info">
+            <span class="label">POSIADASZ:</span>
+            <span class="value">{{ getOwnedCount() | number:'1.0-2' }} COINS</span>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="profile-card">
+            <div class="profile-top">
+                <img [src]="creator.thumbnailUrl" [alt]="creator.name" class="profile-avatar">
+                <div class="profile-text">
+                    <h1>{{ creator.name }}</h1>
+                    <span class="handle">{{ creator.handle }}</span>
+                </div>
+            </div>
+            
+            <div class="profile-stats">
+                <div class="stat-box">
+                    <span class="stat-label">CENA</span>
+                    <span class="stat-value">{{ creator.currentPrice | number:'1.2-2' }} <small>USD</small></span>
+                </div>
+            </div>
+
+            <div class="trade-actions">
+                <button class="trade-btn buy" (click)="openTrade('BUY')">KUP COINY</button>
+                <button class="trade-btn sell" (click)="openTrade('SELL')" [disabled]="getOwnedCount() === 0">SPRZEDAJ</button>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <h3>HISTORIA TRENDU</h3>
+                <span class="pulse">LIVE</span>
+            </div>
+            <div class="chart-wrapper">
+                <canvas baseChart
+                        [data]="lineChartData"
+                        [options]="lineChartOptions"
+                        [type]="'line'">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>

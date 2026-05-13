@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { YoutubeService } from '../../services/youtube-service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,14 +8,18 @@ import { Router } from '@angular/router';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login{
+export class Login {
 
-  constructor(private youtubeService: YoutubeService, private router: Router){}
+  constructor(private authService: AuthService, private router: Router) { }
 
-  login(){
-    this.youtubeService.inicjalizujLogowanie(() => {
+  async login() {
+    try {
+      await this.authService.loginWithGoogle();
       this.router.navigate(['/home']);
-    });
+    } catch (error) {
+      console.error('Błąd logowania:', error);
+    }
   }
 
 }
+

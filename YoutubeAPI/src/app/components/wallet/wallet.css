@@ -1,0 +1,141 @@
+.table-wrapper {
+    background: rgba(10, 15, 12, 0.7);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+    max-height: 70vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #00ff88 rgba(255, 255, 255, 0.05);
+}
+
+/* Custom Scrollbar */
+.table-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+.table-wrapper::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #00ff88;
+    border-radius: 10px;
+}
+
+.market-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #e5e5e5;
+    font-family: 'Inter', sans-serif;
+}
+
+.market-table th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    text-align: right;
+    padding: 1.2rem 1.5rem;
+    background: #0d120f;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.market-table th:first-child {
+    text-align: left;
+    width: 30%;
+}
+
+/* Specific column widths */
+.market-table th:nth-child(2) { width: 15%; } /* Ilość */
+.market-table th:nth-child(3) { width: 15%; } /* Śr. Cena */
+.market-table th:nth-child(4) { width: 15%; } /* Obecna Cena */
+.market-table th:nth-child(5) { width: 15%; } /* Zysk/Strata */
+.market-table th:last-child { width: 10%; text-align: center; } /* Akcje */
+
+.market-table td {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    text-align: right;
+}
+
+.market-table td:first-child {
+    text-align: left;
+}
+
+.market-table td:last-child {
+    text-align: center;
+}
+
+.market-table tr:hover {
+    background: rgba(0, 255, 136, 0.03);
+}
+
+.creator-cell {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.creator-cell .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 255, 136, 0.1);
+}
+
+.creator-cell .name {
+    display: block;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.up { color: #00ff88; }
+.down { color: #ff3e3e; }
+
+.action-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.trade-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.trade-btn.sell {
+    background: transparent;
+    color: #ff3e3e;
+    border-color: rgba(255, 62, 62, 0.2);
+}
+
+.trade-btn.sell:not(:disabled):hover {
+    background: rgba(255, 62, 62, 0.1);
+    border-color: #ff3e3e;
+    transform: translateY(-2px);
+}
+
+.empty-state {
+    padding: 4rem;
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+@media (max-width: 1024px) {
+    .table-wrapper {
+        overflow-x: auto;
+    }
+}

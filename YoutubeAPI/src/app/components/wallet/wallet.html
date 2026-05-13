@@ -1,0 +1,53 @@
+<div class="table-wrapper" *ngIf="walletData$ | async as data">
+    <div class="empty-state" *ngIf="data.ownedStocks.length === 0">
+      Nie posiadasz jeszcze żadnych akcji. Przejdź do Marketu, aby zainwestować!
+    </div>
+    <table class="market-table" *ngIf="data.ownedStocks.length > 0">
+      <thead>
+        <tr>
+          <th>Twórca</th>
+          <th>Ilość</th>
+          <th>Śr. Cena</th>
+          <th>Obecna Cena</th>
+          <th>Zysk/Strata</th>
+          <th>Akcje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let owned of data.ownedStocks">
+          <td (click)="goToDetail(owned.youtuberId)" style="cursor: pointer;">
+            <div class="creator-cell">
+              <ng-container *ngIf="getYoutuberById(owned.youtuberId, data.youtubers) as yt; else loading">
+                <img [src]="yt.avatarUrl" alt="avatar" class="avatar">
+                <div class="info">
+                  <span class="name">{{ yt.name }}</span>
+                </div>
+              </ng-container>
+              <ng-template #loading>
+                <span class="loading-text">Ładowanie...</span>
+              </ng-template>
+            </div>
+          </td>
+          <td>{{ owned.amount | number:'1.0-2' }}</td>
+          <td>{{ owned.avgPrice | number:'1.2-2' }}</td>
+          <td>
+            <ng-container *ngIf="getYoutuberById(owned.youtuberId, data.youtubers) as yt">
+              {{ yt.stock?.currentPrice | number:'1.2-2' }}
+            </ng-container>
+          </td>
+          <td [ngClass]="(getYoutuberById(owned.youtuberId, data.youtubers)?.stock?.currentPrice || 0) >= owned.avgPrice ? 'up' : 'down'">
+            <ng-container *ngIf="getYoutuberById(owned.youtuberId, data.youtubers) as yt">
+              {{ ((yt.stock?.currentPrice || 0) - owned.avgPrice) * owned.amount | number:'1.2-2' }}
+            </ng-container>
+          </td>
+          <td>
+            <div class="action-cell">
+              <button *ngIf="getYoutuberById(owned.youtuberId, data.youtubers) as yt" 
+                      class="trade-btn sell" 
+                      (click)="openTrade(yt, 'SELL')">SPRZEDAJ</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

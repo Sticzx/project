@@ -1,0 +1,91 @@
+.table-wrapper {
+    background: rgba(10, 15, 12, 0.7);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow-y: auto;
+    max-height: 70vh;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+    scrollbar-width: thin;
+    scrollbar-color: #00ff88 rgba(255, 255, 255, 0.05);
+}
+
+.table-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #00ff88;
+    border-radius: 10px;
+}
+
+.market-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #e5e5e5;
+    font-family: 'Inter', sans-serif;
+}
+
+.market-table th {
+    text-align: left;
+    padding: 1.5rem;
+    background: #0a0f0c; /* Solid background for sticky header */
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.market-table td {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.market-table tr:hover {
+    background: rgba(0, 255, 136, 0.03);
+}
+
+.type-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.type-badge.buy {
+    background: rgba(43, 166, 64, 0.2);
+    color: #00ff88;
+}
+
+.type-badge.sell {
+    background: rgba(255, 62, 62, 0.2);
+    color: #ff3e3e;
+}
+
+.date-cell {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.empty-state {
+    padding: 4rem;
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+@media (max-width: 1024px) {
+    .table-wrapper {
+        overflow-x: auto;
+    }
+}

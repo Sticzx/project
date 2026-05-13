@@ -1,0 +1,231 @@
+.detail-container {
+    max-width: 1400px;
+    margin: -1rem auto 0;
+    /* Przesunięcie wyżej */
+    padding: 0.5rem 1.5rem;
+    height: calc(100vh - 180px);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    overflow: hidden;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.5rem 1.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo-mini {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.logo-mini span {
+    color: #00ff88;
+}
+
+.back-btn {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #888;
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.owned-info {
+    text-align: right;
+}
+
+.owned-info .label {
+    font-size: 0.7rem;
+    color: #666;
+    display: block;
+}
+
+.owned-info .value {
+    font-family: 'Oswald', sans-serif;
+    color: #00ff88;
+    font-weight: 700;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 1.5rem;
+    flex: 1;
+    min-height: 0;
+}
+
+.profile-card {
+    background: rgba(20, 25, 30, 0.6);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.profile-top {
+    text-align: center;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    border: 3px solid #00ff88;
+    margin-bottom: 1rem;
+}
+
+.profile-text h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.profile-text .handle {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.profile-stats {
+    margin: 1.5rem 0;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2.2rem;
+    color: #fff;
+}
+
+.stat-value small {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.trade-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.trade-btn {
+    padding: 1rem;
+    border-radius: 12px;
+    border: none;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.trade-btn.buy {
+    background: #00ff88;
+    color: #05100a;
+}
+
+.trade-btn.sell {
+    background: rgba(255, 62, 62, 0.1);
+    color: #ff3e3e;
+    border: 1px solid rgba(255, 62, 62, 0.2);
+}
+
+.trade-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.chart-container {
+    background: rgba(10, 15, 12, 0.8);
+    border-radius: 24px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.chart-header h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #888;
+    letter-spacing: 1px;
+}
+
+.pulse {
+    font-size: 0.7rem;
+    color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+    padding: 2px 8px;
+    border-radius: 20px;
+    animation: blink 2s infinite;
+}
+
+.chart-wrapper {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.4;
+    }
+}
+
+@media (max-width: 1000px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+    }
+
+    .detail-container {
+        height: auto;
+        overflow: visible;
+    }
+
+    .chart-wrapper {
+        height: 300px;
+    }
+}
