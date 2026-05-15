@@ -1,6 +1,6 @@
 <div class="market-grid" *ngIf="youtubers$ | async as youtubers">
   <div class="creator-card" *ngFor="let yt of youtubers">
-    <div class="card-header" (click)="goToDetail(yt.id)" style="cursor: pointer;">
+    <div class="card-header" [routerLink]="['/ytstock/details', yt.id]" style="cursor: pointer;">
       <div class="rank-badge">#{{ youtubers.indexOf(yt) + 1 }}</div>
       <img [src]="yt.avatarUrl" alt="avatar" class="card-avatar">
       <div class="owned-indicator" *ngIf="getOwnedCount(yt.id) > 0">
@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <div class="card-info" (click)="goToDetail(yt.id)" style="cursor: pointer;">
+    <div class="card-info" [routerLink]="['/ytstock/details', yt.id]" style="cursor: pointer;">
       <h3 class="name">{{ yt.name }}</h3>
       <span class="handle">{{ yt.handle }}</span>
     </div>

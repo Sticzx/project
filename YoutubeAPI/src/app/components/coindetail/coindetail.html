@@ -1,3 +1,8 @@
+<div *ngIf="!creator" class="loading-state">
+    <div class="loader"></div>
+    <p>Ładowanie profilu twórcy...</p>
+</div>
+
 <div class="detail-container" *ngIf="creator">
     <div class="header-row">
         <button class="back-btn" routerLink="/ytstock/market">

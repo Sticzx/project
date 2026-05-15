@@ -1,6 +1,6 @@
 import { Component, Optional, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { StockEngineService } from '../../services/stock-engine.service';
 import { WalletService } from '../../services/wallet.service';
 import { Youtuber } from '../../interfaces/youtuber';
@@ -12,7 +12,7 @@ import { combineLatest, map, Observable } from 'rxjs';
 @Component({
   selector: 'app-wallet',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './wallet.html',
   styleUrl: './wallet.css',
 })
@@ -65,7 +65,7 @@ export class WalletComponent {
   }
 
   goToDetail(id: string) {
-    console.log('Nawigacja SPA (Portfel) do:', id);
+    console.log('Nawigacja SPA do:', id);
     this.router.navigate(['/ytstock/details', id]);
   }
 

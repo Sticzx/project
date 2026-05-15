@@ -43,8 +43,10 @@ export class Thumbnails implements OnInit {
       return;
     }
 
+    this.videos = []; // Czyścimy listę przed pobraniem
     this.youtubeService.getChannelVideos(this.targetCreator.id).subscribe({
       next: (videos) => {
+        console.log(`Pobrano ${videos.length} filmów dla twórcy ${this.targetCreator?.name}`);
         if (videos && videos.length > 0) {
           this.videos = videos;
           this.setupGame();

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, Optional } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, Optional, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Firestore, doc, onSnapshot } from '@angular/fire/firestore';
@@ -21,6 +21,7 @@ export class Coindetail implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private firestore = inject(Firestore);
   private walletService = inject(WalletService);
+  private cdr = inject(ChangeDetectorRef);
   @Optional() private parent = inject(Ytstock);
   
   public creator: any = null;
@@ -81,20 +82,35 @@ export class Coindetail implements OnInit, OnDestroy {
       this.creator = null; // Resetujemy widok przed ładowaniem nowych danych
 
       if (id) {
+        console.log('Rozpoczynam pobieranie danych dla:', id);
         const creatorRef = doc(this.firestore, 'market', id);
-        this.unsubscribe = onSnapshot(creatorRef, (snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.data();
-            this.creator = { 
-              id: snapshot.id, 
-              ...data,
-              // Mapowanie dla kompatybilności z modalem handlu
-              avatarUrl: data['thumbnailUrl'],
-              stock: {
-                currentPrice: data['currentPrice']
-              }
-            };
-            this.updateChartData(data['priceHistory'] || []);
+        
+        // Próba pobrania danych natychmiast
+        this.unsubscribe = onSnapshot(creatorRef, {
+          next: (snapshot) => {
+            if (snapshot.exists()) {
+              console.log('DANE ODEBRANE:', snapshot.data());
+              const data = snapshot.data();
+              this.creator = { 
+                id: snapshot.id, 
+                ...data,
+                avatarUrl: data['thumbnailUrl'],
+                stock: {
+                  currentPrice: data['currentPrice']
+                }
+              };
+              this.updateChartData(data['priceHistory'] || []);
+              
+              // Wymuszamy odświeżenie widoku Angulara
+              this.cdr.detectChanges();
+            } else {
+              console.error('DOKUMENT NIE ISTNIEJE W BAZIE! ID:', id);
+              this.creator = { name: 'Błąd: Nie znaleziono twórcy', error: true };
+              this.cdr.detectChanges();
+            }
+          },
+          error: (err) => {
+            console.error('BŁĄD SUBSKRYPCJI FIREBASE:', err);
           }
         });
       }

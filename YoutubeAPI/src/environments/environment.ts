@@ -1,13 +1,12 @@
 export const environment = {
   firebase: {
-    apiKey: "AIzaSyCJKUNNZsvlwNYqutxlH4jEGKyHla388cQ",
-    authDomain: "yt-stock-c7eb2.firebaseapp.com",
-    projectId: "yt-stock-c7eb2",
-    storageBucket: "yt-stock-c7eb2.firebasestorage.app",
-    messagingSenderId: "847287830888",
-    appId: "1:847287830888:web:fb3574504b587643bbeedd",
-    measurementId: "G-XH42TTN7EQ"
+    apiKey: import.meta.env['NG_APP_FIREBASE_API_KEY'],
+    authDomain: import.meta.env['NG_APP_FIREBASE_AUTH_DOMAIN'],
+    projectId: import.meta.env['NG_APP_FIREBASE_PROJECT_ID'],
+    storageBucket: import.meta.env['NG_APP_FIREBASE_STORAGE_BUCKET'],
+    messagingSenderId: import.meta.env['NG_APP_FIREBASE_MESSAGING_SENDER_ID'],
+    appId: import.meta.env['NG_APP_FIREBASE_APP_ID'],
+    measurementId: import.meta.env['NG_APP_FIREBASE_MEASUREMENT_ID']
   },
-  youtubeApiKey: "AIzaSyB40rNXmTDLn19g8Tb3JkeoH_TT2MjmdNE"
+  youtubeApiKey: import.meta.env['NG_APP_YOUTUBE_API_KEY']
 };
-

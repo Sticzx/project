@@ -1,67 +1,74 @@
-<div class="game-container">
-  <!-- Przycisk do szybkiego powrotu do domu! -->
-  <a routerLink="/ytidle" class="back-btn">← Wróć do menu</a>
-  
-  <!-- Nasz błyszczący nagłówek gry -->
-  <div class="header">
-    <h2>Emoji Mode 🧩</h2>
-    <p class="subtitle">Zgadnij twórcę po tych małych obrazkach!</p>
-  </div>
-  
-  <!-- Ekran ładowania - pokazujemy go, gdy czekamy na listę przyjaciół z internetu -->
-  <div *ngIf="isLoading" class="loading-state">
-    <div class="spinner"></div>
-    <p>Ładowanie Twoich subskrypcji...</p>
-  </div>
-
-  <!-- Jeśli lista jest pusta, wyświetlamy bardzo smutną wiadomość -->
-  <div *ngIf="!isLoading && youtubers.length === 0" class="empty-state">
-    Nie masz żadnych subskrypcji. Z kim mamy grać? 😢
-  </div>
-
-  <!-- Główna plansza gry! Otwiera się jak pudełko niespodzianka, gdy gra się załaduje -->
-  <div *ngIf="!isLoading && youtubers.length > 0" class="game-content">
-    
-    <!-- Pudełeczko na nasze wielkie, kolorowe emotki na środku ekranu -->
-    <div class="emoji-display">
-      <!-- Rysujemy pokolei emotki, wyjmując je z naszej magicznej tablicy -->
-      <span class="emoji bounce-in" *ngFor="let emoji of visibleEmojis">
-        {{ emoji }}
-      </span>
-      <!-- Puste miejsca (znaki zapytania) czekające na to, aż się pomylisz! -->
-      <span class="emoji-placeholder" *ngFor="let empty of [].constructor(5 - visibleEmojisCount)">
-        ❓
-      </span>
-    </div>
-    
-    <!-- Mały licznik pokazujący, ile podpowiedzi udało nam się rozpakować -->
-    <p class="hints-text" *ngIf="!hasWon">Odblokowane podpowiedzi: {{ visibleEmojisCount }} z 5</p>
-
-    <!-- Tutaj wybieramy z listy kogo chcemy ustrzelić -->
-    <div class="guess-controls" *ngIf="!hasWon">
-      <select class="custom-select" [(ngModel)]="selectedYoutuberId">
-        <option value="" disabled selected>Kto to taki?</option>
-        <option *ngFor="let yt of youtubers" [value]="yt.id">{{ yt.name }}</option>
-      </select>
-      <button class="primary-btn" (click)="guess()">Zgadnij!</button>
+<div class="game-container" [class.loading]="isLoading">
+    <!-- HEADER -->
+    <div class="game-header">
+        <button routerLink="/ytidle" class="back-btn">← HUB</button>
+        <div class="header-right-group">
+            <h1 class="title">EMOTE <span>DECODER</span></h1>
+            <div class="stats-pill">
+                <span class="label">ODKRYTE:</span>
+                <span class="value">{{ visibleEmojisCount }}/5</span>
+            </div>
+        </div>
     </div>
 
-    <!-- Kiedy zrobimy błąd, tekst robi się czerwony i się trzęsie! -->
-    <div *ngIf="guessError && !hasWon" class="error-state">
-      <p>❌ Oj nie, to nie on! Odsłoniliśmy dla Ciebie kolejną emotkę!</p>
+    <!-- MAIN GAME AREA -->
+    <div class="main-game" *ngIf="!isLoading">
+        
+        <!-- EMOJI BUBBLES AREA -->
+        <div class="emoji-canvas">
+            <div class="emoji-grid">
+                <div *ngFor="let emoji of visibleEmojis; let i = index" 
+                     class="emoji-bubble"
+                     [style.animation-delay]="(i * 0.1) + 's'">
+                    {{ emoji }}
+                </div>
+                <!-- EMPTY SLOTS -->
+                <div *ngFor="let empty of [].constructor(5 - visibleEmojisCount)" class="emoji-slot">
+                    ?
+                </div>
+            </div>
+            <p class="canvas-hint" *ngIf="!hasWon">Odszyfruj twórcę używając powyższych emotek</p>
+        </div>
+
+        <!-- INPUT SECTION -->
+        <div class="input-area" *ngIf="!hasWon">
+            <div class="input-wrapper" [class.error]="guessError">
+                <select [(ngModel)]="selectedYoutuberId" (change)="guessError = false" class="styled-select">
+                    <option value="" disabled selected>Kto to może być?</option>
+                    <option *ngFor="let yt of youtubers" [value]="yt.id">
+                        {{ yt.name }}
+                    </option>
+                </select>
+                <button (click)="guess()" [disabled]="!selectedYoutuberId" class="decode-btn">
+                    DEKODUJ
+                </button>
+            </div>
+            <div class="error-msg" *ngIf="guessError">
+                NIEPOPRAWNY KOD. DODANO NOWĄ PODPOWIEDŹ.
+            </div>
+        </div>
+
+        <!-- WIN STATE -->
+        <div class="win-card" *ngIf="hasWon">
+            <div class="celebration-glow"></div>
+            <div class="win-content">
+                <div class="badge">SYSTEM ODSZYFROWANY</div>
+                <div class="avatar-box">
+                    <img [src]="target.avatarUrl" alt="winner" class="winner-avatar">
+                </div>
+                <h2>{{ target.name }}</h2>
+                <div class="win-actions">
+                    <button (click)="setupNewTarget()" class="play-again-btn">NOWA GRA</button>
+                    <button routerLink="/ytidle" class="exit-btn">WYJŚCIE</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Panel wygranej - wyskakuje gdy zgadniesz! -->
-    <div class="win-state" *ngIf="hasWon">
-      <h3>🎉 Brawo! Zgadłeś!</h3>
-      <div class="winner-info">
-        <!-- Mały obrazek (awatar) zwycięzcy! -->
-        <img [src]="target.avatarUrl" alt="avatar" class="avatar" *ngIf="target.avatarUrl">
-        <p>To był oczywiście <strong>{{ target.name }}</strong></p>
-      </div>
-      <!-- Przycisk, który kręci wielkim kołem fortuny od nowa -->
-      <button class="primary-btn" (click)="setupNewTarget()">Chcę zagrać jeszcze raz!</button>
+    <!-- LOADING -->
+    <div class="loading-overlay" *ngIf="isLoading">
+        <div class="decoder-ring"></div>
+        <p>Analizowanie kanału...</p>
     </div>
-
-  </div>
 </div>

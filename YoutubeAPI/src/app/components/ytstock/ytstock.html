@@ -1,5 +1,6 @@
-<div class="market-container" *ngIf="headerStats$ | async as stats">
-  <header class="main-header">
+<div class="market-container">
+  <!-- Pasek statystyk ładowany niezależnie, aby nie blokować router-outlet -->
+  <header class="main-header" *ngIf="headerStats$ | async as stats; else loadingHeader">
     <div class="header-left">
       <h1 class="logo">YT-<span>STOCK</span></h1>
     </div>
@@ -21,14 +22,19 @@
           <i class="exit-icon">✕</i>
         </div>
       </a>
-
     </div>
   </header>
+
+  <ng-template #loadingHeader>
+    <header class="main-header">
+       <div class="header-left"><h1 class="logo">YT-<span>STOCK</span></h1></div>
+       <div class="header-center" style="color: #666;">Ładowanie danych...</div>
+    </header>
+  </ng-template>
 
   <main class="content-area">
     <router-outlet></router-outlet>
   </main>
-
 
   <!-- TRADE MODAL (Shared) -->
   <div class="modal-overlay" *ngIf="selectedCreator" (click)="closeTrade()">
@@ -44,7 +50,7 @@
         <button class="close-btn" (click)="closeTrade()">&times;</button>
       </div>
 
-      <div class="trade-body">
+      <div class="trade-body" *ngIf="headerStats$ | async as stats">
         <div class="input-group">
           <label>Ilość (Coins)</label>
           <div class="control">
@@ -79,7 +85,6 @@
           <span *ngIf="!isProcessing">POTWIERDŹ {{ tradeType === 'BUY' ? 'ZAKUP' : 'SPRZEDAŻ' }}</span>
           <span *ngIf="isProcessing">PRZETWARZANIE...</span>
         </button>
-
       </div>
     </div>
   </div>

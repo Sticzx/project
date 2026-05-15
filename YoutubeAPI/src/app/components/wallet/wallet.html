@@ -15,7 +15,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let owned of data.ownedStocks">
-          <td (click)="goToDetail(owned.youtuberId)" style="cursor: pointer;">
+          <td [routerLink]="['/ytstock/details', owned.youtuberId]" style="cursor: pointer;">
             <div class="creator-cell">
               <ng-container *ngIf="getYoutuberById(owned.youtuberId, data.youtubers) as yt; else loading">
                 <img [src]="yt.avatarUrl" alt="avatar" class="avatar">
